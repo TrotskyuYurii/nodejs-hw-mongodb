@@ -1,7 +1,7 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import {getAllContacts} from '../services/contacts.js';
+import {getAllContacts,getContactsById} from '../services/contacts.js';
 import { env } from '../utils/env.js';
 import { ENV_VARS } from '../const/const.js';
 
@@ -11,7 +11,7 @@ export const setupServer=()=> {
     //Ініціалізація сервера
     const app = express();
     
-    app.use(pino());
+    // app.use(pino());
     // app.use(
     //     pino({
     //       transport: {
@@ -43,19 +43,32 @@ export const setupServer=()=> {
 
     //Отримання всіх контактів
     app.get('/contacts', async (req, res) => {
-        const allcontacts = await getAllContacts();
-        res.json({
+        const contactsfound = await getAllContacts();
+        res.status(200).json({
           status: 200,
-          message: 'Successfully get all contacts!',
-          data: allcontacts,
+          message: 'Successfully found contacts!',
+          data: contactsfound,
         });
       });
 
     
       //Отримання конкретного контакта за ID
-      app.get('/contacts/:id', (req, res) => {
+      app.get('/contacts/:id', async (req, res) => {
+        
+        const id = req.params.id;
+        const contactsfound = await getContactsById(id);
+
+        if (!contactsfound) {
+          return res.status(404).json({
+            status: 404,
+            message: `Student with id ${id} not found!`,
+          });
+        }
+
         res.status(200).json({
-          message: 'contact with id: ' + req.params.id,
+          status: 200,
+          message: `Successfully found contact with id ${id}!`,
+          data: contactsfound,
         });
       });
 

@@ -9,4 +9,4 @@ const contactSchema = new Schema({
 }, {timestamps: true, versionKey: false});
 
 
-export const ContactCollection = model("contacts", contactSchema);
+export const ContactCollection = model("contacts", contactSchema); // "contacts" - назва колекції
