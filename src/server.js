@@ -53,9 +53,10 @@ export const setupServer=()=> {
 
     
       //Отримання конкретного контакта за ID
-      app.get('/contacts/:id', async (req, res) => {
+      app.get('/contacts/:contactid', async (req, res) => {
         
-        const id = req.params.id;
+        const id = req.params.contactid;
+       
         const contactsfound = await getContactsById(id);
 
         if (!contactsfound) {
