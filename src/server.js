@@ -6,7 +6,7 @@ import { env } from '../utils/env.js';
 import { ENV_VARS } from '../const/const.js';
 
 
-export function setupServer() {
+export const setupServer=()=> {
 
     //Ініціалізація сервера
     const app = express();

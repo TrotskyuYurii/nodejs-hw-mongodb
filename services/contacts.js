@@ -1,6 +1,7 @@
-import {Contact} from '../models/contact.js';
+import {ContactCollection} from '../models/contact.js';
 
 
 export const getAllContacts = async () => {
-    return await Contact.find();
+    return await ContactCollection.find();
 }
+
