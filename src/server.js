@@ -61,10 +61,10 @@ export const setupServer=()=> {
        
         const contactsfound = await getContactsById(id);
 
-        if (!contactsfound) {
+        if (!contactsfound || contactsfound.length === 0) {
           return res.status(404).json({
             status: 404,
-            message: `Student with id ${id} not found!`,
+            message: `Contact with id ${id} not found!`,
           });
         }
 
