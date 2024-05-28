@@ -1,9 +1,9 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import {getAllContacts,getContactsById} from '../services/contacts.js';
-import { env } from '../utils/env.js';
-import { ENV_VARS } from '../const/const.js';
+import {getAllContacts,getContactsById} from './services/contacts.js';
+import { env } from './utils/env.js';
+import { ENV_VARS } from './const/const.js';
 
 
 export const setupServer=()=> {
