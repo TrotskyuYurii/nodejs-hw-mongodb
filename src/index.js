@@ -1,25 +1,10 @@
-import express from 'express';
-import pino, { transport } from 'pino';
+import {setupServer} from './server.js';
+import {initMongoConnection} from '../src/db/initMongoConnection.js';
 
-const app = express();
-// app.use(pino(
-//   {
-//     transport:{
-//       target: 'pino-pretty',}}
+// (async () => {
+//     await initMongoConnection();
+//     setupServer();
+//   })();
 
-// )),(req, res) => {
-//   console.log(req.body);
-// };
-
-
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello, World!'
-  });
-});
-
-
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+await initMongoConnection();
+setupServer();
