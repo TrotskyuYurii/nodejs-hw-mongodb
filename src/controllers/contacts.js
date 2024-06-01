@@ -4,6 +4,7 @@ import {getAllContacts,getContactsById} from '../services/contacts.js';
 
 
 
+
 export const getDefaultController = async (req, res) => {
     res.status(200).json({
         status: 200,
@@ -33,13 +34,13 @@ export const getContactsByIdController =   async (req, res) => {
 
         const contactsfound = await getContactsById(id);
 
-        if (!contactsfound || contactsfound.length === 0) {
-            return res.status(404).json({
-                status: 404,
-                message: `Contact with id ${id} not found!`,
-                data: [],
-            });
-        }
+        // if (!contactsfound || contactsfound.length === 0) {
+        //     return res.status(404).json({
+        //         status: 404,
+        //         message: `Contact with id ${id} not found!`,
+        //         data: [],
+        //     });
+        // }
 
         res.status(200).json({
             status: 200,
