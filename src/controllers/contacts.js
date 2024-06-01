@@ -1,6 +1,9 @@
 import {getAllContacts,getContactsById} from '../services/contacts.js';
 
 
+
+
+
 export const getDefaultController = async (req, res) => {
     res.status(200).json({
         status: 200,
@@ -8,6 +11,8 @@ export const getDefaultController = async (req, res) => {
         data: [],
     });
 }
+
+
 
 
 export const getAllContactsController = async (req, res) => {
@@ -20,11 +25,11 @@ export const getAllContactsController = async (req, res) => {
 };
 
 
+
+
 export const getContactsByIdController =   async (req, res) => {
 
     const id = req.params.contactid;
-
-    try {
 
         const contactsfound = await getContactsById(id);
 
@@ -42,12 +47,5 @@ export const getContactsByIdController =   async (req, res) => {
             data: contactsfound,
         });
 
-    } catch (err) {
-        res.status(500).json({
-            status: 500,
-            message: 'Something went wrong',
-            error: err.message,
-        });
-    }
 };
 
