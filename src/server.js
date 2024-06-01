@@ -5,7 +5,10 @@ import { env } from './utils/env.js';
 import { ENV_VARS } from './const/const.js';
 
 import contactsRouter from './routers/contacts.js';
+import { errorHandlerMiddleware } from './middlewares/errorHandler.js';
 
+
+//Запуск сервера
 export const setupServer=()=> {
 
     //Ініціалізація сервера
@@ -19,6 +22,7 @@ export const setupServer=()=> {
     //       },
     //     }),
     //   );
+
     app.use(cors());
 
     //Додавання middleware для парсингу JSON
@@ -31,6 +35,10 @@ export const setupServer=()=> {
     
     //Підключення маршрутів
     app.use(contactsRouter);
+
+    //підключення обробників помилок
+    app.use(errorHandlerMiddleware);
+
 
     //Запуск сервера
     const PORT = env(ENV_VARS.PORT, 3000);

@@ -1,18 +1,8 @@
-
 import { Router } from "express"
 import {getDefaultController, getAllContactsController, getContactsByIdController} from '../controllers/contacts.js';
+import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
 
 const contactsRouter = Router();
-
-
-//функція обгортки контролера
-export const ctrlWrapper = (controller) => async (req, res, next) => {
-    try {
-      await controller(req, res, next);
-    } catch (err) {
-      next(err);
-    }
-  };
 
 
 
