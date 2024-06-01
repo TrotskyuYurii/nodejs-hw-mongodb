@@ -39,9 +39,5 @@ export const setupServer=()=> {
       console.log(`Server is running on port ${PORT}`);
     });
     
-
-
-
-
 }
 

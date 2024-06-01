@@ -1,63 +1,30 @@
 
 import { Router } from "express"
-import {getAllContacts,getContactsById} from '../services/contacts.js';
-
-
+import {getDefaultController, getAllContactsController, getContactsByIdController} from '../controllers/contacts.js';
 
 const contactsRouter = Router();
 
 
+//функція обгортки контролера
+export const ctrlWrapper = (controller) => async (req, res, next) => {
+    try {
+      await controller(req, res, next);
+    } catch (err) {
+      next(err);
+    }
+  };
+
 
 
 //обробка запитів
-contactsRouter.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: 'Hello, World!'
-    });
-});
+//Звернення по дефолтному маршруту
+contactsRouter.get('/', ctrlWrapper(getDefaultController));
 
 //Отримання всіх контактів
-contactsRouter.get('/contacts', async (req, res) => {
-    const contactsfound = await getAllContacts();
-    res.status(200).json({
-        status: 200,
-        message: 'Successfully found contacts!',
-        data: contactsfound,
-    });
-});
-
+contactsRouter.get('/contacts', ctrlWrapper(getAllContactsController));
 
 //Отримання конкретного контакта за ID
-contactsRouter.get('/contacts/:contactid', async (req, res) => {
-
-    const id = req.params.contactid;
-
-    try {
-
-        const contactsfound = await getContactsById(id);
-
-        if (!contactsfound || contactsfound.length === 0) {
-            return res.status(404).json({
-                status: 404,
-                message: `Contact with id ${id} not found!`,
-                data: [],
-            });
-        }
-
-        res.status(200).json({
-            status: 200,
-            message: `Successfully found contact with id ${id}!`,
-            data: contactsfound,
-        });
-
-    } catch (err) {
-        res.status(500).json({
-            status: 500,
-            message: 'Something went wrong',
-            error: err.message,
-        });
-    }
-});
+contactsRouter.get('/contacts/:contactid', ctrlWrapper(getContactsByIdController));
 
 
 //Обробка помилок при невідомих запитах
