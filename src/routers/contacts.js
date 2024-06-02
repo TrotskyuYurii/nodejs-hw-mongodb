@@ -28,9 +28,11 @@ contactsRouter.delete('/contacts/:contactid',ctrlWrapper(deleteContactsByIdContr
 
 //Обробка помилок при невідомих запитах
 contactsRouter.use('*', (req, res, next) => {
+
     res.status(404).json({
         message: 'Route not found',
     });
+
 });
 
 //Обробка помилок при невідомії помилці
