@@ -36,3 +36,14 @@ export const createNewContact = async (payload) => {
     return newContact;
 }
 
+
+export const patchContactsById = async (id, payload) => {
+    const idobj = { _id: id };
+    const pathContacts = await ContactCollection.findByIdAndUpdate(idobj, payload, {new: true,includeResultMetadata: true, ...options});
+
+    if (!pathContacts || !pathContacts.value) {
+        throw createHttpError(404, `Contact not found`);
+    }
+
+    return pathContacts;
+}

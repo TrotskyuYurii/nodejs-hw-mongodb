@@ -1,4 +1,4 @@
-import {getAllContacts,getContactsById,createNewContact} from '../services/contacts.js';
+import {getAllContacts,getContactsById,createNewContact,patchContactsById} from '../services/contacts.js';
 
 
 
@@ -61,5 +61,20 @@ export const postNewContactController = async (req, res) => {
         status: 201,
         message: 'Successfully created a contact!',
         data: newContact,
+    });
+}
+
+
+export const patchContactsByIdController = async (req, res) => {
+
+    const id = req.params.contactid;
+    const {body} = req;
+
+    const pathContacts = await patchContactsById(id, body);
+
+    res.status(200).json({
+        status: 200,
+        message: 'Successfully patched a contact!',
+        data: pathContacts,
     });
 }
