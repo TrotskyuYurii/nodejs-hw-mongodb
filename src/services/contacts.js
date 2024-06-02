@@ -14,18 +14,12 @@ export const getContactsById = async (id) => {
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
         throw createHttpError(404, 'invalid ID');
-        // throw new Error('invalid ID');
       }
 
       const contactsfound = await ContactCollection.find(idobj);
 
       if (!contactsfound || contactsfound.length === 0) {
         throw createHttpError(404, `Contact with id ${id} not found!`);
-        // return res.status(404).json({
-        //     status: 404,
-        //     message: `Contact with id ${id} not found!`,
-        //     data: [],
-        // });
     }
     return contactsfound;
 }
@@ -46,4 +40,14 @@ export const patchContactsById = async (id, payload) => {
     }
 
     return pathContacts;
+}
+
+
+export const deleteContactsById = async (id) => {
+    const idobj = { _id: id };
+    const contactsdeleted = await ContactCollection.findByIdAndDelete(idobj);
+    if (!contactsdeleted) {
+        throw createHttpError(404, `Contact with id ${id} not found!`);
+    }
+    return contactsdeleted;
 }

@@ -1,4 +1,4 @@
-import {getAllContacts,getContactsById,createNewContact,patchContactsById} from '../services/contacts.js';
+import {getAllContacts,getContactsById,createNewContact,patchContactsById,deleteContactsById} from '../services/contacts.js';
 
 
 
@@ -34,14 +34,6 @@ export const getContactsByIdController =   async (req, res) => {
 
         const contactsfound = await getContactsById(id);
 
-        // if (!contactsfound || contactsfound.length === 0) {
-        //     return res.status(404).json({
-        //         status: 404,
-        //         message: `Contact with id ${id} not found!`,
-        //         data: [],
-        //     });
-        // }
-
         res.status(200).json({
             status: 200,
             message: `Successfully found contact with id ${id}!`,
@@ -70,11 +62,18 @@ export const patchContactsByIdController = async (req, res) => {
     const id = req.params.contactid;
     const {body} = req;
 
-    const pathContacts = await patchContactsById(id, body);
+    const {pathContacts} = await patchContactsById(id, body);
 
     res.status(200).json({
         status: 200,
         message: 'Successfully patched a contact!',
         data: pathContacts,
     });
+}
+
+export const deleteContactsByIdController = async (req, res) => {
+    const id = req.params.contactid;
+    await deleteContactsById(id);
+    res.status(204);
+    res.end();
 }

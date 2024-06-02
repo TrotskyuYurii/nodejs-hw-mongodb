@@ -1,5 +1,5 @@
 import { Router } from "express"
-import {getDefaultController, getAllContactsController, getContactsByIdController, postNewContactController,patchContactsByIdController} from '../controllers/contacts.js';
+import {getDefaultController, getAllContactsController, getContactsByIdController, postNewContactController,patchContactsByIdController,deleteContactsByIdController} from '../controllers/contacts.js';
 import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
 
 const contactsRouter = Router();
@@ -21,6 +21,10 @@ contactsRouter.post('/contacts', ctrlWrapper(postNewContactController));
 
 //Оновлення конкретного контакта за ID
 contactsRouter.patch('/contacts/:contactid', ctrlWrapper(patchContactsByIdController));
+
+//Видалення конкретного контакта за ID
+contactsRouter.delete('/contacts/:contactid',ctrlWrapper(deleteContactsByIdController));
+
 
 //Обробка помилок при невідомих запитах
 contactsRouter.use('*', (req, res, next) => {
