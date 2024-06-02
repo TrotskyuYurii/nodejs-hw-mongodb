@@ -1,5 +1,5 @@
 import { Router } from "express"
-import {getDefaultController, getAllContactsController, getContactsByIdController} from '../controllers/contacts.js';
+import {getDefaultController, getAllContactsController, getContactsByIdController, postNewContactController} from '../controllers/contacts.js';
 import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
 
 const contactsRouter = Router();
@@ -16,6 +16,11 @@ contactsRouter.get('/contacts', ctrlWrapper(getAllContactsController));
 //Отримання конкретного контакта за ID
 contactsRouter.get('/contacts/:contactid', ctrlWrapper(getContactsByIdController));
 
+//Створення нового контакту
+contactsRouter.post('/contacts', ctrlWrapper(postNewContactController));
+
+//Оновлення конкретного контакта за ID
+// contactsRouter.patch('/contacts/:contactid', ctrlWrapper(patchContactsByIdController));
 
 //Обробка помилок при невідомих запитах
 contactsRouter.use('*', (req, res, next) => {

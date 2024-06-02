@@ -8,6 +8,7 @@ export const getAllContacts = async () => {
     return await ContactCollection.find();
 }
 
+
 export const getContactsById = async (id) => {
     const idobj = { _id: id };
 
@@ -26,7 +27,12 @@ export const getContactsById = async (id) => {
         //     data: [],
         // });
     }
-
-
     return contactsfound;
 }
+
+
+export const createNewContact = async (payload) => {
+    const newContact = await ContactCollection.create(payload);
+    return newContact;
+}
+

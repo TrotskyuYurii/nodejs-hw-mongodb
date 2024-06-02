@@ -1,4 +1,4 @@
-import {getAllContacts,getContactsById} from '../services/contacts.js';
+import {getAllContacts,getContactsById,createNewContact} from '../services/contacts.js';
 
 
 
@@ -50,3 +50,16 @@ export const getContactsByIdController =   async (req, res) => {
 
 };
 
+
+
+export const postNewContactController = async (req, res) => {
+
+    const {body} = req;
+    const newContact = await createNewContact(body);
+
+    res.status(201).json({
+        status: 201,
+        message: 'Successfully created a contact!',
+        data: newContact,
+    });
+}
