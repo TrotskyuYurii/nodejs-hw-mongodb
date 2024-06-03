@@ -26,22 +26,22 @@ contactsRouter.patch('/contacts/:contactid', ctrlWrapper(patchContactsByIdContro
 contactsRouter.delete('/contacts/:contactid',ctrlWrapper(deleteContactsByIdController));
 
 
-//Обробка помилок при невідомих запитах
-contactsRouter.use('*', (req, res, next) => {
+// //Обробка помилок при невідомих запитах
+// contactsRouter.use('*', (req, res, next) => {
 
-    res.status(404).json({
-        message: 'Route not found',
-    });
+//     res.status(404).json({
+//         message: 'Route not found',
+//     });
 
-});
+// });
 
-//Обробка помилок при невідомії помилці
-contactsRouter.use((err, req, res, next) => {
-    res.status(500).json({
-        message: 'Something went wrong',
-        error: err.message,
-    });
-});
+// //Обробка помилок при невідомії помилці
+// contactsRouter.use((err, req, res, next) => {
+//     res.status(500).json({
+//         message: 'Something went wrong',
+//         error: err.message,
+//     });
+// });
 
 
 export default contactsRouter;

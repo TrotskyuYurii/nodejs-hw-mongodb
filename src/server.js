@@ -6,7 +6,7 @@ import { ENV_VARS } from './const/const.js';
 
 import contactsRouter from './routers/contacts.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandler.js';
-import {notFoundMiddleware} from './middlewares/notFoundHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 
 //Запуск сервера
@@ -39,7 +39,7 @@ export const setupServer=()=> {
 
     //підключення обробників помилок
     app.use(errorHandlerMiddleware);
-    app.use(notFoundMiddleware);
+    app.use(notFoundHandler);
 
 
     //Запуск сервера
