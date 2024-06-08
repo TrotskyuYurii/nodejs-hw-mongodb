@@ -3,15 +3,41 @@ import createHttpError from 'http-errors';
 import {ContactCollection} from '../models/contact.js';
 
 
+// Додаткова функція для розрахунку параметрів пагінації
+const createPaginationInformation = (page, perPage, count) => {
+    const totalPages = Math.ceil(count / perPage);
+    const hasNextPage = page < totalPages;
+    const hasPreviousPage = page > 1;
+  
+    return {
+      page,
+      perPage,
+      totalItems: count,
+      totalPages,
+      hasPreviousPage,
+      hasNextPage,
+    };
+  };
 
-export const getAllContacts = async () => {
-    return await ContactCollection.find();
+
+
+
+export const getAllContacts = async ({page, perPage}) => {
+
+    const count = await ContactCollection.countDocuments();
+    const paginationInformation = createPaginationInformation(page, perPage, count);
+    const dataContacts = await ContactCollection.find().skip((page - 1) * perPage).limit(perPage);
+
+
+    return {
+        data: dataContacts,
+        ...paginationInformation
+    };
 }
 
 
 export const getContactsById = async (id) => {
     const idobj = { _id: id };
-
     if (!mongoose.Types.ObjectId.isValid(id)) {
         throw createHttpError(404, 'invalid ID');
       }
