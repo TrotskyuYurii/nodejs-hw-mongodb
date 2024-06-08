@@ -3,6 +3,7 @@ import {getDefaultController, getAllContactsController, getContactsByIdControlle
 import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
 import {validateBody} from '../middlewares/validateBody.js';
 import {contactsCreateBodySchema} from '../validation/contactsCreateBodySchema.js';
+import {contactsPatchBodySchema} from '../validation/contactsPatchBodySchema.js';
 
 const contactsRouter = Router();
 
@@ -22,7 +23,7 @@ contactsRouter.get('/contacts/:contactid', ctrlWrapper(getContactsByIdController
 contactsRouter.post('/contacts', validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
 
 //Оновлення конкретного контакта за ID
-contactsRouter.patch('/contacts/:contactid', ctrlWrapper(patchContactsByIdController));
+contactsRouter.patch('/contacts/:contactid', validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
 
 //Видалення конкретного контакта за ID
 contactsRouter.delete('/contacts/:contactid',ctrlWrapper(deleteContactsByIdController));
