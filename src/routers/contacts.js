@@ -11,22 +11,22 @@ const contactsRouter = Router();
 
 //обробка запитів
 //Звернення по дефолтному маршруту
-contactsRouter.get('/', ctrlWrapper(getDefaultController));
+// contactsRouter.get('/', ctrlWrapper(getDefaultController));
 
 //Отримання всіх контактів
-contactsRouter.get('/contacts', ctrlWrapper(getAllContactsController));
+contactsRouter.get('/', ctrlWrapper(getAllContactsController));
 
 //Отримання конкретного контакта за ID
-contactsRouter.get('/contacts/:contactid', ctrlWrapper(getContactsByIdController));
+contactsRouter.get('/:contactid', ctrlWrapper(getContactsByIdController));
 
 //Створення нового контакту
-contactsRouter.post('/contacts', validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
+contactsRouter.post('/', validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
 
 //Оновлення конкретного контакта за ID
-contactsRouter.patch('/contacts/:contactid', validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
+contactsRouter.patch('/:contactid', validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
 
 //Видалення конкретного контакта за ID
-contactsRouter.delete('/contacts/:contactid',ctrlWrapper(deleteContactsByIdController));
+contactsRouter.delete('/:contactid',ctrlWrapper(deleteContactsByIdController));
 
 
 // //Обробка помилок при невідомих запитах

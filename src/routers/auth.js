@@ -1,15 +1,15 @@
 import { Router } from "express"
-import {getDefaultController, getAllContactsController, getContactsByIdController, postNewContactController,patchContactsByIdController,deleteContactsByIdController} from '../controllers/contacts.js';
+import {registerUserController} from '../controllers/auth.js';
 import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
+import {validateBody} from '../middlewares/validateBody.js';
+import {registerUserSchema} from '../validation/registerUserSchema.js';
 
 
 const authRouter = Router();
 
-
-
 //обробка запитів
-//Звернення по дефолтному маршруту
-// authRouter.get('/auth', ctrlWrapper(getDefaultController));
+//Створення нового користувача
+authRouter.post('/register', validateBody(registerUserSchema),ctrlWrapper(registerUserController));
 
 
 
