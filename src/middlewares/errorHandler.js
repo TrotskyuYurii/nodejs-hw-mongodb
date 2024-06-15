@@ -8,6 +8,7 @@ export const errorHandlerMiddleware = (error, req, res, next) => {
       status: error.status,
       message: error.message,
       data: {"message": error.message},
+      errorsValidation: error.errors || [],
       });
     } else {
       res.status(500).json({
