@@ -4,9 +4,10 @@ import cors from 'cors';
 import { env } from './utils/env.js';
 import { ENV_VARS } from './const/const.js';
 
-import contactsRouter from './routers/contacts.js';
+import rootRouter from './routers/rootRouter.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+
 
 
 //Запуск сервера
@@ -35,7 +36,7 @@ export const setupServer=()=> {
     );
     
     //Підключення маршрутів
-    app.use(contactsRouter);
+    app.use(rootRouter);
 
     //підключення обробників помилок
     app.use(errorHandlerMiddleware);
