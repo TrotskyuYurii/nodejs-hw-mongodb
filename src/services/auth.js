@@ -1,7 +1,9 @@
 import createHttpError from 'http-errors';
-import { UserCollection } from '../models/user.js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import { UserCollection } from '../models/user.js';
+import { Session } from '../models/session.js';
+
 
 
 
@@ -26,12 +28,12 @@ export const createUser = async (payload) => {
 
 
 
-  
+
   export const loginUser = async ({ email, password }) => {
-    const user = await User.findOne({ email });
+    const user = await UserCollection.findOne({ email });
   
     if (!user) {
-      throw createHttpError(404, 'User not found!');
+      throw createHttpError(401, 'User not found!');
     }
   
     const areEqual = await bcrypt.compare(password, user.password);
