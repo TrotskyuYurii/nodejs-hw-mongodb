@@ -38,7 +38,7 @@ export const getContactsByIdController =   async (req, res) => {
 
     const id = req.params.contactid;
 
-        const contactsfound = await getContactsById(id);
+        const contactsfound = await getContactsById({id,userId: req.user._id});
 
         res.status(200).json({
             status: 200,
@@ -68,7 +68,7 @@ export const patchContactsByIdController = async (req, res) => {
     const id = req.params.contactid;
     const {body} = req;
 
-    const pathContacts = await patchContactsById(id, body);
+    const pathContacts = await patchContactsById(id, body, req.user._id);
 
     res.status(200).json({
         status: 200,
@@ -79,7 +79,7 @@ export const patchContactsByIdController = async (req, res) => {
 
 export const deleteContactsByIdController = async (req, res) => {
     const id = req.params.contactid;
-    await deleteContactsById(id);
+    await deleteContactsById(id,req.user._id);
     res.status(204);
     res.end();
 }

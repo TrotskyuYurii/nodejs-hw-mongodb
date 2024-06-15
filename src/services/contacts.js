@@ -42,11 +42,13 @@ const createPaginationInformation = (page, perPage, count) => {
 
 
 
-export const getContactsById = async (id) => {
-    const idobj = { _id: id };
+export const getContactsById = async ({id, userId}) => {
+    const idobj = { _id: id, userId };
     if (!mongoose.Types.ObjectId.isValid(id)) {
         throw createHttpError(404, 'invalid ID');
       }
+
+
 
       const contactsfound = await ContactCollection.find(idobj);
 
@@ -64,23 +66,36 @@ export const createNewContact = async (payload, userId) => {
 }
 
 
-export const patchContactsById = async (id, payload, options = {}) => {
-
-    const pathContacts = await ContactCollection.findByIdAndUpdate(id, payload, {new: true,includeResultMetadata: true, ...options});
-
-    if (!pathContacts || !pathContacts.value) {
-        throw createHttpError(404, `Contact not found`);
+export const patchContactsById = async (id, payload, userId, options = {}) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw createHttpError(404, 'Invalid ID');
     }
-
-    return pathContacts.value;
-}
-
-
-export const deleteContactsById = async (id) => {
-    const idobj = { _id: id };
-    const contactsdeleted = await ContactCollection.findByIdAndDelete(idobj);
-    if (!contactsdeleted) {
-        throw createHttpError(404, `Contact with id ${id} not found!`);
+  
+    const updateObj = { _id: id, userId };
+    const patchedContact = await ContactCollection.findOneAndUpdate(
+      updateObj,
+      payload,
+      { new: true, ...options }
+    );
+  
+    if (!patchedContact) {
+      throw createHttpError(404, `Contact with id ${id} not found or does not belong to the user!`);
     }
-    return contactsdeleted;
-}
+  
+    return patchedContact;
+  };
+
+
+export const deleteContactsById = async (id, userId) => {
+    const idObj = { _id: id, userId };
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw createHttpError(404, 'Invalid ID');
+    }
+  
+    const contactDeleted = await ContactCollection.findOneAndDelete(idObj);
+  
+    if (!contactDeleted) {
+      throw createHttpError(404, `Contact with id ${id} not found or does not belong to the user!`);
+    }
+    return contactDeleted;
+  };
