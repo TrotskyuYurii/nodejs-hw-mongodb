@@ -1,5 +1,16 @@
 import { createUser, loginUser } from "../services/auth.js";
-import {setupSessionCookies} from '../utils/cookies.js';
+
+export const setupSessionCookies = (res, session) => {
+    res.cookie('sessionId', session._id, {
+      httpOnly: true,
+      expire: 7 * 24 * 60 * 60,
+    });
+    res.cookie('sessionToken', session.refreshToken, {
+      httpOnly: true,
+      expire: 7 * 24 * 60 * 60,
+    });
+  };
+
 
 
 export const registerUserController = async (req, res) => {

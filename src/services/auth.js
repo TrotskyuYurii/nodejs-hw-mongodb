@@ -2,9 +2,17 @@ import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { UserCollection } from '../models/user.js';
-import { Session } from '../models/session.js';
+import { SessionCollection } from '../models/session.js';
 
 
+const createSession = () => {
+    return {
+      accessToken: crypto.randomBytes(40).toString('base64'),
+      refreshToken: crypto.randomBytes(40).toString('base64'),
+      accessTokenValidUntil: Date.now() + 1000 * 60 * 15, // 15 minutes,
+      refreshTokenValidUntil: Date.now() + 1000 * 60 * 60 * 24 * 30, // 30 days,
+    };
+  };
 
 
 export const createUser = async (payload) => {
@@ -42,9 +50,9 @@ export const createUser = async (payload) => {
       throw createHttpError(401, 'Unauthorized');
     }
   
-    await Session.deleteOne({ userId: user._id });
+    await SessionCollection.deleteOne({ userId: user._id });
   
-    return await Session.create({
+    return await SessionCollection.create({
       userId: user._id,
       ...createSession(),
     });
