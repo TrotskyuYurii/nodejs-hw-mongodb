@@ -22,16 +22,17 @@ const createPaginationInformation = (page, perPage, count) => {
 
 
 
-export const getAllContacts = async ({page=1, perPage=10, sortBy="_id", sortOrder="asc"}) => {
-
+  export const getAllContacts = async ({page=1, perPage=10, sortBy="_id", sortOrder="asc", userId}) => {
     //Параметри пагінації
-    const count = await ContactCollection.countDocuments();
+    const count = await ContactCollection.countDocuments({ userId });
     const paginationInformation = createPaginationInformation(page, perPage, count);
     
-    //Параметри сортування в змінних sortBy, sortOrder
-    // console.log(sortBy, sortOrder);
-    
-    const dataContacts = await ContactCollection.find().skip((page - 1) * perPage).limit(perPage).sort({[sortBy]: sortOrder,}).exec();
+    const dataContacts = await ContactCollection
+        .find({ userId })
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .sort({ [sortBy]: sortOrder })
+        .exec();
 
     return {
         data: dataContacts,
@@ -55,8 +56,9 @@ export const getContactsById = async (id) => {
 }
 
 
-export const createNewContact = async (payload) => {
-    const newContact = await ContactCollection.create(payload);
+export const createNewContact = async (payload, userId) => {
+
+    const newContact = await ContactCollection.create({...payload, userId:userId});
     return newContact;
 }
 

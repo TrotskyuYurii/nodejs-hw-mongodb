@@ -4,6 +4,7 @@ import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
 import {validateBody} from '../middlewares/validateBody.js';
 import {contactsCreateBodySchema} from '../validation/contactsCreateBodySchema.js';
 import {contactsPatchBodySchema} from '../validation/contactsPatchBodySchema.js';
+import { authenticate } from "../middlewares/authenticate.js";
 
 const contactsRouter = Router();
 
@@ -12,6 +13,7 @@ const contactsRouter = Router();
 //обробка запитів
 //Звернення по дефолтному маршруту
 // contactsRouter.get('/', ctrlWrapper(getDefaultController));
+contactsRouter.use('/', authenticate);
 
 //Отримання всіх контактів
 contactsRouter.get('/', ctrlWrapper(getAllContactsController));

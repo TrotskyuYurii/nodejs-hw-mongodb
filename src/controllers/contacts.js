@@ -23,7 +23,7 @@ export const getAllContactsController = async (req, res) => {
     const {page, perPage} = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);    
 
-    const contactsfound = await getAllContacts({page,perPage,sortBy,sortOrder});
+    const contactsfound = await getAllContacts({page,perPage,sortBy,sortOrder,userId: req.user._id,});
     res.status(200).json({
         status: 200,
         message: 'Successfully found contacts!',
@@ -53,7 +53,7 @@ export const getContactsByIdController =   async (req, res) => {
 export const postNewContactController = async (req, res) => {
 
     const {body} = req;
-    const newContact = await createNewContact(body);
+    const newContact = await createNewContact(body, req.user._id);
 
     res.status(201).json({
         status: 201,
