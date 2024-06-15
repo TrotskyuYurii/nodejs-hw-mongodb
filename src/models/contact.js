@@ -6,6 +6,7 @@ const contactSchema = new Schema({
     email: {type: String, required: false},
     isFavourite : {type: Boolean, required: false},
     contactType: {type: String, required: false},
+    userId: {type: Schema.ObjectId, required: true},
 }, {timestamps: true, versionKey: false});
 
 export const ContactCollection = model("contacts", contactSchema); // "contacts" - назва колекції
