@@ -1,6 +1,8 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
+import cookiesParser from 'cookie-parser';
+
 import { env } from './utils/env.js';
 import { ENV_VARS } from './const/const.js';
 
@@ -35,6 +37,9 @@ export const setupServer=()=> {
       }),
     );
     
+
+    app.use(cookiesParser());
+
     //Підключення маршрутів
     app.use(rootRouter);
 

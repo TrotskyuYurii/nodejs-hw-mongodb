@@ -15,6 +15,7 @@ const createSession = () => {
   };
 
 
+
 export const createUser = async (payload) => {
     
     const hashedPassword = await bcrypt.hash(payload.password, 10);
@@ -32,8 +33,6 @@ export const createUser = async (payload) => {
       password: hashedPassword,
     });
   };
-
-
 
 
 
@@ -55,5 +54,12 @@ export const createUser = async (payload) => {
     return await SessionCollection.create({
       userId: user._id,
       ...createSession(),
+    });
+  };
+
+  export const logoutUser = async ({ sessionId, sessionToken }) => {
+    return await SessionCollection.deleteOne({
+      _id: sessionId,
+      refreshToken: sessionToken,
     });
   };
