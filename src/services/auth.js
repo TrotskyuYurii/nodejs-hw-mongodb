@@ -13,7 +13,7 @@ export const createUser = async (payload) => {
     if (user) {
       throw createHttpError(
         409,
-        'User with this email is already present in database!',
+        'Email in use',
       );
     }
   

@@ -2,10 +2,11 @@ import { createUser } from "../services/auth.js";
 
 export const registerUserController = async (req, res) => {
     const user = await createUser(req.body);
+    const { password, ...userWithoutPassword } = user.toObject();
   
     res.json({
-      status: 200,
-      message: 'User is created!',
-      data: { user },
+      status: 201,
+      message: 'Successfully registered a user!',
+      data: { user: userWithoutPassword },
     });
   };
