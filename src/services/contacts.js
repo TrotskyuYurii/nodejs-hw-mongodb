@@ -69,15 +69,17 @@ export const createNewContact = async ({photo, ...payload }, userId) => {
 }
 
 
-export const patchContactsById = async (id, payload, userId, options = {}) => {
+export const patchContactsById = async (id, {photo, ...payload }, userId, options = {}) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       throw createHttpError(404, 'Invalid ID');
     }
-  
+    
+    const url = await saveFile(photo);
+
     const updateObj = { _id: id, userId };
     const patchedContact = await ContactCollection.findOneAndUpdate(
       updateObj,
-      payload,
+      { ...payload, photo: url },
       { new: true, ...options }
     );
   

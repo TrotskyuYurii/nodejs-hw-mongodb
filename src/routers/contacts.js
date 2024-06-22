@@ -27,7 +27,8 @@ contactsRouter.get('/:contactid', ctrlWrapper(getContactsByIdController));
 contactsRouter.post('/', upload.single('photo'),validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
 
 //Оновлення конкретного контакта за ID
-contactsRouter.patch('/:contactid', validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
+// contactsRouter.patch('/:contactid', validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
+contactsRouter.patch('/:contactid', upload.single('photo'),validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
 
 //Видалення конкретного контакта за ID
 contactsRouter.delete('/:contactid',ctrlWrapper(deleteContactsByIdController));
