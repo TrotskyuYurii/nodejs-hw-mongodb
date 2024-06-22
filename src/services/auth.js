@@ -1,8 +1,12 @@
 import createHttpError from 'http-errors';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import { env } from '../utils/env.js';
+import { ENV_VARS } from '../const/const.js';
 import { UserCollection } from '../models/user.js';
 import { SessionCollection } from '../models/session.js';
+import {sendMail} from '../utils/sendMail.js';
 
 
 const createSession = () => {
@@ -94,4 +98,50 @@ export const createUser = async (payload) => {
         userId: user._id,
       ...createSession(),
     });
+  };
+
+
+
+  export const sendResetPassword = async (email) => {
+    const user = await UserCollection.findOne({ email });
+  
+    if (!user) {
+      throw createHttpError(404, 'User is not found!');
+    }
+  
+    const token = jwt.sign(
+      {
+        sub: user._id,
+        email,
+      },
+      env(ENV_VARS.JWT_SECRET),
+      {
+        expiresIn: 1,
+      },
+    );
+  
+    // const templateSource = await fs.readFile(
+    //   path.join(TEMPLATE_DIR, 'send-reset-password-email.html'),
+    // );
+  
+    // const template = Handlebars.compile(templateSource.toString());
+  
+    // const html = template({
+    //   name: user.name,
+    //   link: `${env(ENV_VARS.FRONTEND_HOST)}/reset-password?token=${token}`,
+    // });
+
+
+    const html = `<a href="${env(ENV_VARS.APP_DOMAIN)}/reset-password?token=${token}">Reset your password</a>`
+  
+    try {
+      await sendMail({
+        html,
+        to: email,
+        from: env(ENV_VARS.SMTP_FROM),
+        subject: 'Reset your password!',
+      });
+    } catch (err) {
+      throw createHttpError(500, 'Failed to send the email, please try again later.');
+    }
   };
