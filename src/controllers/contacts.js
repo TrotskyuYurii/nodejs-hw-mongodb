@@ -52,8 +52,6 @@ export const getContactsByIdController =   async (req, res) => {
 
 export const postNewContactController = async (req, res) => {
 
-    // const {body} = req;
-    // const newContact = await createNewContact(body, req.user._id);
     const { body, file } = req;
     const newContact = await createNewContact({...body, photo: file}, req.user._id);
 
