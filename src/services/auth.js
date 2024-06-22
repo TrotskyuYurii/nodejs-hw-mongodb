@@ -132,7 +132,7 @@ export const createUser = async (payload) => {
     // });
 
 
-    const html = `<a href="${env(ENV_VARS.APP_DOMAIN)}/reset-password?token=${token}">Reset your password</a>`
+    const html = `<a href="${env(ENV_VARS.APP_DOMAIN)}/reset-pwd?token=${token}">Reset your password</a>`
   
     try {
       await sendMail({
@@ -144,4 +144,24 @@ export const createUser = async (payload) => {
     } catch (err) {
       throw createHttpError(500, 'Failed to send the email, please try again later.');
     }
+  };
+
+
+  export const resetPassword = async ({ token, password }) => {
+    let tokenPayload;
+    try {
+      tokenPayload = jwt.verify(token, env(ENV_VARS.JWT_SECRET));
+    } catch (err) {
+      throw createHttpError(401, "Token is expired or invalid.");
+    }
+  
+    const hashedPassword = await bcrypt.hash(password, 10);
+  
+    await UserCollection.findOneAndUpdate(
+      {
+        _id: tokenPayload.sub,
+        email: tokenPayload.email,
+      },
+      { password: hashedPassword },
+    );
   };

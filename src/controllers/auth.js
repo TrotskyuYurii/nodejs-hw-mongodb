@@ -1,4 +1,4 @@
-import { createUser, loginUser, logoutUser, refreshSession, sendResetPassword } from "../services/auth.js";
+import { createUser, loginUser, logoutUser, refreshSession, resetPassword, sendResetPassword } from "../services/auth.js";
 
 //Ініціалізація сесій в куках
 export const setupSessionCookies = (res, session) => {
@@ -85,10 +85,10 @@ export const registerUserController = async (req, res) => {
 
   export const resetPasswordController = async (req, res) => {
 
-    
+    await resetPassword(req.body);
 
     res.json({
       status: 200,
-      message: 'Password changed successfully!',
+      message: 'Password has been successfully reset.',
     });
   }
