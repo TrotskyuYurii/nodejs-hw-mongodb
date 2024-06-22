@@ -1,3 +1,6 @@
+import path from 'path';
+
+
 export const ENV_VARS = {
     PORT: 'PORT',
     MONGODB_USER: 'MONGODB_USER',
@@ -11,6 +14,11 @@ export const ENV_VARS = {
     SMTP_FROM: 'SMTP_FROM',
     JWT_SECRET: 'JWT_SECRET',
     APP_DOMAIN: 'APP_DOMAIN',
+    TEMP_UPLOAD_DIR: 'TEMP_UPLOAD_DIR',
+    CLOUDINARY_NAME: 'CLOUDINARY_NAME',
+    CLOUDINARY_API_KEY: 'CLOUDINARY_API_KEY',
+    CLOUDINARY_API_SECRET: 'CLOUDINARY_API_SECRET',
+    IS_CLOUDINARY_ENABLED: 'IS_CLOUDINARY_ENABLED',
   };
 
   export const SORT_ORDER = {
@@ -28,3 +36,7 @@ export const ENV_VARS = {
     'createdAt',
     'updatedAt',
   ];
+
+  export const TEMPLATE_DIR = path.join(process.cwd(), 'src', 'templates');
+  export const TEMP_UPLOAD_DIR = path.join(process.cwd(), 'temp');
+  export const UPLOAD_DIR = path.join(process.cwd(), 'upload');

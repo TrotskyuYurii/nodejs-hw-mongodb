@@ -2,6 +2,7 @@ import { Router } from "express"
 import {getDefaultController, getAllContactsController, getContactsByIdController, postNewContactController,patchContactsByIdController,deleteContactsByIdController} from '../controllers/contacts.js';
 import {ctrlWrapper} from '../middlewares/ctrlWrapper.js';
 import {validateBody} from '../middlewares/validateBody.js';
+import { upload } from "../middlewares/upload.js";
 import {contactsCreateBodySchema} from '../validation/contactsCreateBodySchema.js';
 import {contactsPatchBodySchema} from '../validation/contactsPatchBodySchema.js';
 import { authenticate } from "../middlewares/authenticate.js";
@@ -22,7 +23,8 @@ contactsRouter.get('/', ctrlWrapper(getAllContactsController));
 contactsRouter.get('/:contactid', ctrlWrapper(getContactsByIdController));
 
 //Створення нового контакту
-contactsRouter.post('/', validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
+// contactsRouter.post('/',validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
+contactsRouter.post('/', upload.single('photo'),validateBody(contactsCreateBodySchema),ctrlWrapper(postNewContactController));
 
 //Оновлення конкретного контакта за ID
 contactsRouter.patch('/:contactid', validateBody(contactsPatchBodySchema), ctrlWrapper(patchContactsByIdController));
