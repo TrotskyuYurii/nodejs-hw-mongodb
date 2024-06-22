@@ -68,3 +68,9 @@ export const registerUserController = async (req, res) => {
     });
   };
   
+  export const sendResetEmailController = async (req, res) => {
+    res.json({
+      status: 200,
+      message: 'Email sent successfully!',
+    });
+  };
