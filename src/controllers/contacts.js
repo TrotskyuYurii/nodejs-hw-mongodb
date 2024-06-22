@@ -23,7 +23,7 @@ export const getAllContactsController = async (req, res) => {
     const {page, perPage} = parsePaginationParams(req.query);
     const { sortBy, sortOrder } = parseSortParams(req.query);    
 
-    const contactsfound = await getAllContacts({page,perPage,sortBy,sortOrder});
+    const contactsfound = await getAllContacts({page,perPage,sortBy,sortOrder,userId: req.user._id,});
     res.status(200).json({
         status: 200,
         message: 'Successfully found contacts!',
@@ -38,7 +38,7 @@ export const getContactsByIdController =   async (req, res) => {
 
     const id = req.params.contactid;
 
-        const contactsfound = await getContactsById(id);
+        const contactsfound = await getContactsById({id,userId: req.user._id});
 
         res.status(200).json({
             status: 200,
@@ -53,7 +53,7 @@ export const getContactsByIdController =   async (req, res) => {
 export const postNewContactController = async (req, res) => {
 
     const {body} = req;
-    const newContact = await createNewContact(body);
+    const newContact = await createNewContact(body, req.user._id);
 
     res.status(201).json({
         status: 201,
@@ -68,7 +68,7 @@ export const patchContactsByIdController = async (req, res) => {
     const id = req.params.contactid;
     const {body} = req;
 
-    const pathContacts = await patchContactsById(id, body);
+    const pathContacts = await patchContactsById(id, body, req.user._id);
 
     res.status(200).json({
         status: 200,
@@ -79,7 +79,7 @@ export const patchContactsByIdController = async (req, res) => {
 
 export const deleteContactsByIdController = async (req, res) => {
     const id = req.params.contactid;
-    await deleteContactsById(id);
+    await deleteContactsById(id,req.user._id);
     res.status(204);
     res.end();
 }

@@ -22,16 +22,17 @@ const createPaginationInformation = (page, perPage, count) => {
 
 
 
-export const getAllContacts = async ({page=1, perPage=10, sortBy="_id", sortOrder="asc"}) => {
-
+  export const getAllContacts = async ({page=1, perPage=10, sortBy="_id", sortOrder="asc", userId}) => {
     //Параметри пагінації
-    const count = await ContactCollection.countDocuments();
+    const count = await ContactCollection.countDocuments({ userId });
     const paginationInformation = createPaginationInformation(page, perPage, count);
     
-    //Параметри сортування в змінних sortBy, sortOrder
-    // console.log(sortBy, sortOrder);
-    
-    const dataContacts = await ContactCollection.find().skip((page - 1) * perPage).limit(perPage).sort({[sortBy]: sortOrder,}).exec();
+    const dataContacts = await ContactCollection
+        .find({ userId })
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .sort({ [sortBy]: sortOrder })
+        .exec();
 
     return {
         data: dataContacts,
@@ -40,11 +41,14 @@ export const getAllContacts = async ({page=1, perPage=10, sortBy="_id", sortOrde
 }
 
 
-export const getContactsById = async (id) => {
-    const idobj = { _id: id };
+
+export const getContactsById = async ({id, userId}) => {
+    const idobj = { _id: id, userId };
     if (!mongoose.Types.ObjectId.isValid(id)) {
         throw createHttpError(404, 'invalid ID');
       }
+
+
 
       const contactsfound = await ContactCollection.find(idobj);
 
@@ -55,29 +59,43 @@ export const getContactsById = async (id) => {
 }
 
 
-export const createNewContact = async (payload) => {
-    const newContact = await ContactCollection.create(payload);
+export const createNewContact = async (payload, userId) => {
+
+    const newContact = await ContactCollection.create({...payload, userId:userId});
     return newContact;
 }
 
 
-export const patchContactsById = async (id, payload, options = {}) => {
-
-    const pathContacts = await ContactCollection.findByIdAndUpdate(id, payload, {new: true,includeResultMetadata: true, ...options});
-
-    if (!pathContacts || !pathContacts.value) {
-        throw createHttpError(404, `Contact not found`);
+export const patchContactsById = async (id, payload, userId, options = {}) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw createHttpError(404, 'Invalid ID');
     }
-
-    return pathContacts.value;
-}
-
-
-export const deleteContactsById = async (id) => {
-    const idobj = { _id: id };
-    const contactsdeleted = await ContactCollection.findByIdAndDelete(idobj);
-    if (!contactsdeleted) {
-        throw createHttpError(404, `Contact with id ${id} not found!`);
+  
+    const updateObj = { _id: id, userId };
+    const patchedContact = await ContactCollection.findOneAndUpdate(
+      updateObj,
+      payload,
+      { new: true, ...options }
+    );
+  
+    if (!patchedContact) {
+      throw createHttpError(404, `Contact with id ${id} not found or does not belong to the user!`);
     }
-    return contactsdeleted;
-}
+  
+    return patchedContact;
+  };
+
+
+export const deleteContactsById = async (id, userId) => {
+    const idObj = { _id: id, userId };
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw createHttpError(404, 'Invalid ID');
+    }
+  
+    const contactDeleted = await ContactCollection.findOneAndDelete(idObj);
+  
+    if (!contactDeleted) {
+      throw createHttpError(404, `Contact with id ${id} not found or does not belong to the user!`);
+    }
+    return contactDeleted;
+  };
