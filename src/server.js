@@ -4,7 +4,7 @@ import cors from 'cors';
 import cookiesParser from 'cookie-parser';
 
 import { env } from './utils/env.js';
-import { ENV_VARS } from './const/const.js';
+import { ENV_VARS, UPLOAD_DIR } from './const/const.js';
 
 import rootRouter from './routers/rootRouter.js';
 import { errorHandlerMiddleware } from './middlewares/errorHandler.js';
@@ -27,7 +27,10 @@ export const setupServer=()=> {
     //     }),
     //   );
 
+
+    //Додавання middleware для обробки помилок
     app.use(cors());
+
 
     //Додавання middleware для парсингу JSON
     app.use(
@@ -36,8 +39,11 @@ export const setupServer=()=> {
         type: ['application/json', 'application/vnd.api+json'],
       }),
     );
-    
 
+    //Додавання middleware для статичних файлів
+    app.use('/uploads', express.static(UPLOAD_DIR));
+
+    //Додавання middleware для парсингу cookies
     app.use(cookiesParser());
 
     //Підключення маршрутів
