@@ -116,7 +116,7 @@ export const createUser = async (payload) => {
       },
       env(ENV_VARS.JWT_SECRET),
       {
-        expiresIn: 1,
+        expiresIn: 600,
       },
     );
   
