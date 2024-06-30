@@ -1,0 +1,27 @@
+tags:
+  - Contacts
+paths:
+  /contacts:
+    get:
+      summary: Get contact
+      description: Get all contacts
+      operationId: getContacts
+      parameters:
+        - name: limit
+          in: query
+          description: Limit
+          required: false
+          schema:
+            type: number
+        - name: offset
+          in: query
+          description: Offset
+          required: false
+          schema:
+            type: number
+        - name: sortBy
+          in: query
+          description: Sort by
+          required: false
+          schema:
+            type: string

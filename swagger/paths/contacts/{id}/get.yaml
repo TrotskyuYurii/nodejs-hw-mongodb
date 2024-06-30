@@ -1,0 +1,20 @@
+tags:
+  - Contacts
+paths:
+  /contacts/{id}:
+    get:
+      summary: Get contact
+      description: Get contact by ID
+      operationId: getContact
+      parameters:
+        - name: id
+          in: path
+          description: ID of contact
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
