@@ -131,6 +131,7 @@ export const createUser = async (payload) => {
     //   link: `${env(ENV_VARS.FRONTEND_HOST)}/reset-password?token=${token}`,
     // });
 
+    
 
     const html = `<a href="${env(ENV_VARS.APP_DOMAIN)}/reset-pwd?token=${token}">Reset your password</a>`
   
