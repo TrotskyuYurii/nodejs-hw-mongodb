@@ -1,5 +1,6 @@
-import { createUser, loginUser, logoutUser, refreshSession } from "../services/auth.js";
+import { createUser, loginUser, logoutUser, refreshSession, resetPassword, sendResetPassword } from "../services/auth.js";
 
+//Ініціалізація сесій в куках
 export const setupSessionCookies = (res, session) => {
     res.cookie('sessionId', session._id, {
       httpOnly: true,
@@ -16,7 +17,7 @@ export const setupSessionCookies = (res, session) => {
 
 
 
-
+//Реєстрація авторизація
 export const registerUserController = async (req, res) => {
     const user = await createUser(req.body);
     const { password, ...userWithoutPassword } = user.toObject();
@@ -68,3 +69,26 @@ export const registerUserController = async (req, res) => {
     });
   };
   
+
+
+
+  //Скидування пароля
+  export const sendResetEmailController = async (req, res) => {
+
+    await sendResetPassword(req.body.email);
+
+    res.json({
+      status: 200,
+      message: 'Email sent successfully!',
+    });
+  };
+
+  export const resetPasswordController = async (req, res) => {
+
+    await resetPassword(req.body);
+
+    res.json({
+      status: 200,
+      message: 'Password has been successfully reset.',
+    });
+  }
