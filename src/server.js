@@ -2,6 +2,7 @@ import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
 import cookiesParser from 'cookie-parser';
+import { swagger } from './middlewares/swagger.js';
 
 import { env } from './utils/env.js';
 import { ENV_VARS, UPLOAD_DIR } from './const/const.js';
@@ -17,6 +18,9 @@ export const setupServer=()=> {
 
     //Ініціалізація сервера
     const app = express();
+
+    //Додавання middleware для відображення API Reference
+    app.use('/api-docs', swagger());
     
     // app.use(pino());
     // app.use(
