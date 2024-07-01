@@ -8,15 +8,14 @@ info:
   description: >
     APi for contact book
 tags:
-  - name: contacts
+  - name: Contacts
     description: API for contacts
-
 servers:
-  - url: <http://localhost:3000>
-  - url: #посилання на задеплоєний сайт
+  - url: http://localhost:8080
+  # - url: посилання на задеплоєний сайт
 paths:
-  # /contacts/{id}:
-  #   $ref: '../swagger/paths/contacts/{id}/get.yaml'
+  /contacts/{id}:
+    $ref: '../swagger/paths/contacts/{id}/get.yaml'
   /contacts:
     $ref: '../swagger/paths/contacts/get.yaml'
 components:

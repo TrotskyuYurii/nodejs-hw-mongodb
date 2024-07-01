@@ -1,5 +1,5 @@
 tags:
-  - contacts
+  - Contacts
 paths:
   /contacts:
     get:
