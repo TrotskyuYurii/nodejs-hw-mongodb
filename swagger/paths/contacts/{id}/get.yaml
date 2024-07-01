@@ -1,7 +1,7 @@
 tags:
   - Contacts
-summary: Get contact by id
-operationId: getContactsbyId
+summary: Get contacts by id
+operationId: getContactsById
 description: 'You can get access only to children added by you'
 security:
   - bearerAuth: []
