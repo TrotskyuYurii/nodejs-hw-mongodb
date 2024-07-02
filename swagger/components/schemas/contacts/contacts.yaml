@@ -3,7 +3,6 @@ required:
   - userId
   - name
   - phoneNumber
-
 properties:
   userId:
     type: string
