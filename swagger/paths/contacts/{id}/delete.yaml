@@ -1,11 +1,11 @@
 tags:
   - Contacts
 summary: Delete a contact by ID
-operationId: getAllContacts
+operationId: deleteContactById
 description: Delete a specific contact by ID
 security:
   - bearerAuth: []
-  parameters:
+parameters:
   - name: id
     in: path
     required: true
