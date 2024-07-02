@@ -38,13 +38,13 @@ responses:
               example: 200
             message:
               type: string
-              example: Successfully found student with id 65ca67e7ae7f10c88b598384!
+              example: Successfully found contacts!
             data:
               type: object
               required:
-                - students
+                - contacts
               properties:
-                students:
+                contacts:
                   type: array
                   items:
                     $ref: '../../components/schemas/contacts/contacts.yaml'

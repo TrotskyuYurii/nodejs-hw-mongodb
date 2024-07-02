@@ -13,6 +13,7 @@ content:
           example: 401
         message:
           type: string
-          example: Unauthorized
+          example: Auth header is not provided
         data:
           type: object
+          example: {"message":"Auth header is not provided","errorsValidation":[]}
